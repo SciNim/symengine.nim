@@ -5,7 +5,7 @@ import nimterop/[build, cimport]
 
 const baseDir = getProjectCacheDir("symengine")
 
-setDefines(@["cwrapperJBB", "cwrapperSetVer=0.6.0+1"])
+setDefines(@["cwrapperJBB", "cwrapperSetVer=0.6.0"])
 
 
 getHeader(
