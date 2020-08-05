@@ -1,3 +1,12 @@
 nimcache/
 nimblecache/
 htmldocs/
+*.dll
+*.so
+*.6
+*.0
+*.10
+*.4
+*.3
+tests/test1
+tests/test1.exe
