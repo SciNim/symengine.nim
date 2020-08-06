@@ -510,6 +510,26 @@ region expressions:
     except LibraryError:
       raise newException(ValueError, "diffVar must be a symbol")
 
+  template diff*(symExpr: SymEngineExpr, dVar: SymEngineSymbol, derivOrder = 1): SymEngineExpr =
+    var result: SymEngineExpr
+    if derivOrder == 0: result = symExpr
+    elif derivOrder == 1: result = single_diff(symExpr, dVar)
+    else:
+      result = single_diff(symExpr, dVar)
+      for i in 2 .. derivOrder:
+          result = single_diff(result, dVar)
+    result
+
+  template diff*(symExpr: SymEngineExpr, dVars: varargs[SymEngineSymbol]): SymEngineExpr =
+    var result: SymEngineExpr
+    if dVars.len == 0: result = symExpr
+    elif dVars.len == 1: result = single_diff(symExpr, dVars[0])
+    else:
+      result = single_diff(symExpr, dVars[0])
+      for i in 1 .. dVars.high:
+          result = single_diff(result, dVars[i])
+    result
+
   template solve_poly*(poly: SymEngineExpr, base: SymEngineSymbol): seq[SymEngineExpr] =
     ## Solves a polynomial equation of degrees up to 4. ie if the e
     var base_expr = base.symbolToExpr()
