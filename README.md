@@ -9,9 +9,9 @@ proc f_proc(x: SymEngineExpr): SymEngineExpr =
 
 template f_template(x: SymEngineExpr): SymEngineExpr =
     x^2 + 1
-```nim
-Because an implicit result variables isn't defined in templates we have to do it our selfs:
 ```
+Because an implicit result variables isn't defined in templates we have to do it our selfs:
+```nim
 proc f2_proc(x: SymEngineExpr, n: int): SymEngineExpr =
     if n > 0:
         result = x ^ n
