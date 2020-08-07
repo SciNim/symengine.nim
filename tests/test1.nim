@@ -10,8 +10,9 @@ import unittest
 import symengine
 
 let A = @[1 // 2, 1//1, 3//4].toCol
-echo A 
+echo A
 let x = newSymbol("x")
+echo diff(A, x, x)
 echo diff(x^2, x)
 echo diff(x^2, x, x)
 echo diff(x^2, x, 2)
