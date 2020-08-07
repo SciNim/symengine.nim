@@ -594,6 +594,12 @@ region matrix:
   template ncols*(matrix: SymEngineMatrix): int =
     dense_matrix_cols(matrix.data).int
 
+  template isSquare*(matrix: SymEngineMatrix): bool =
+    var result: bool
+    if matrix.nrows == matrix.ncols: result = true
+    else: result = false
+    result
+
   template newMatrix*(nrows, ncols: int, fill: SymEngineExpr = zero): SymEngineMatrix =
     var result = SymEngineMatrix(data: dense_matrix_new_rows_cols(nrows.cuint, ncols.cuint))
     for i in 0 ..< nrows:
@@ -670,12 +676,14 @@ region matrix:
     result
 
   template det*(matrix: SymEngineMatrix): SymEngineExpr =
+    assert matrix.isSquare, "Matrix must be square for det"
     var result: SymEngineExpr
     allocExpr(result):
       dense_matrix_det(result.data, matrix.data)
     result
 
   template inv*(matrix: SymEngineMatrix): SymEngineMatrix =
+    assert matrix.isSquare, "Matrix must be square for inv"
     var result = SymEngineMatrix(data: dense_matrix_new())
     discard dense_matrix_inv(result.data, matrix.data)
     result
