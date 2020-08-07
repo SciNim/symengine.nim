@@ -531,7 +531,7 @@ region expressions:
     result
 
   template solve_poly*(poly: SymEngineExpr, base: SymEngineSymbol): seq[SymEngineExpr] =
-    ## Solves a polynomial equation of degrees up to 4. ie if the e
+    ## Solves a polynomial equation of degrees up to 4.
     var base_expr = base.symbolToExpr()
     var cset = setbasic_new()
     let err_code = basic_solve_poly(cset, poly.data, base_expr.data)
@@ -669,6 +669,9 @@ region matrix:
   template `-`*(a: SymEngineMatrix, b: SymEngineExpr): SymEngineMatrix =
     a + -1*b
 
+  template `-`*(matrix: SymEngineMatrix): SymEngineMatrix =
+    -1*matrix
+
   template `\`*(A, b: SymEngineMatrix): SymEngineMatrix =
     ## Solve the equation A*x = b using LU_solve
     var result = SymEngineMatrix(data: dense_matrix_new())
@@ -726,6 +729,12 @@ region matrix:
     var result = newMatrix(matrix.nrows, matrix.ncols)
     handleException dense_matrix_diff(result.data, matrix.data, derivVar.exprField.data)
     result
+
+  template diff*(matrix: SymEngineMatrix, dVar: SymEngineSymbol, derivOrder = 1): SymEngineMatrix =
+    mapIt(matrix, it.diff(dVar, derivOrder))
+
+  template diff*(matrix: SymEngineMatrix, dVars: varargs[SymEngineSymbol]): SymEngineMatrix =
+    mapIt(matrix, it.diff(dVars))
 
   template jacobian*(functions: seq[SymEngineExpr], derivVars: seq[SymEngineSymbol]): SymEngineMatrix =
     let derivMatrix = derivVars.toCol
