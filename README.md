@@ -24,7 +24,7 @@ template f2_template(x: SymEngineExpr, n: int): SymEngineExpr =
         result = x ^ n
     else:
         result = zero
-    result # we must be explicit that we want to return the variable 'result'
+    result # we must be explicit that we want to return the variable result
 ```
 
 # Tutorial
